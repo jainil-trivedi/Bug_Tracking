@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Bug Tracking{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+  <div class="navbar-inner">
+
+    <!-- LEFT -->
+    <a class="brand" href="#">
+      <span class="brand-badge">🐛</span>
+      <span class="brand-text">Bug Tracking</span>
+    </a>
+
+    <!-- RIGHT -->
+    <nav class="nav-links">
+      <a href="#" class="nav-link">Projects</a>
+      <a href="#" class="nav-link">Tasks</a>
+      <a href="#" class="nav-link">Bugs</a>
+    </nav>
+
+  </div>
+</header>
+
+  <!-- Page Container -->
+  <main class="page">
+    <div class="container">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 <span>Bug Tracking</span> — Built with Django.
+  </footer>
+
+</body>
+</html>
