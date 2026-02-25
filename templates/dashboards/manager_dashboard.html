@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-title">Project Manager Dashboard</div>
+        <div class="breadcrumb">Welcome, <span>{{ user.email }}</span></div>
+    </div>
+    <a href="#" class="btn btn-primary">+ New Project</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card blue">
+        <div class="stat-icon">📁</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ my_projects|default:"0" }}</div>
+            <div class="stat-label">My Projects</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon">🧩</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_modules|default:"0" }}</div>
+            <div class="stat-label">Total Modules</div>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_tasks|default:"0" }}</div>
+            <div class="stat-label">Total Tasks</div>
+        </div>
+    </div>
+    <div class="stat-card red">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ pending_tasks|default:"0" }}</div>
+            <div class="stat-label">Pending Tasks</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Project Summary</div>
+        <a href="#" class="btn btn-success btn-sm">+ Add Project</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Description</th>
+                    <th>Modules</th>
+                    <th>Total Tasks</th>
+                    <th>Pending</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-icon">📁</div>
+                            <p>No projects assigned.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% block title %}Tester Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-title">Tester Dashboard</div>
+        <div class="breadcrumb">Welcome, <span>{{ user.email }}</span></div>
+    </div>
+    <a href="#" class="btn btn-danger">+ Report Bug</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card blue">
+        <div class="stat-icon">🔍</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ tasks_to_test|default:"0" }}</div>
+            <div class="stat-label">Tasks to Test</div>
+        </div>
+    </div>
+    <div class="stat-card red">
+        <div class="stat-icon">🐛</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ bugs_reported|default:"0" }}</div>
+            <div class="stat-label">Bugs Reported</div>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ pending_bugs|default:"0" }}</div>
+            <div class="stat-label">Pending Bugs</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon">✔️</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ resolved_bugs|default:"0" }}</div>
+            <div class="stat-label">Resolved Bugs</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Bugs I Reported</div>
+        <a href="#" class="btn btn-danger btn-sm">+ New Bug</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Bug ID</th>
+                    <th>Description</th>
+                    <th>Task</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-icon">🐛</div>
+                            <p>No bugs reported yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

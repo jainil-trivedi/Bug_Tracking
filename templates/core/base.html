@@ -2,52 +2,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}Bug Tracking{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bug Tracking{% endblock %} | Bug Tracking System</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-  <!-- Top Navbar -->
-  <header class="navbar">
-  <div class="navbar-inner">
-
-    <!-- LEFT -->
-    <a class="brand" href="#">
-      <span class="brand-badge">🐛</span>
-      <span class="brand-text">Bug Tracking</span>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+    {# <a href="{% url 'adminDashboard' %}" class="navbar-brand"> #}
+    <a href="
+    {% if user.role == 'admin' %}{% url 'adminDashboard' %}
+    {% elif user.role == 'manager' %}{% url 'managerDashboard' %}
+    {% elif user.role == 'developer' %}{% url 'developerDashboard' %}
+    {% elif user.role == 'tester' %}{% url 'testerDashboard' %}
+    {% endif %}
+" class="navbar-brand">
+        {# 🔴 DAY: Dashboard  → change # to {% url 'dashboard' %} #}
+        <div class="brand-icon">🐛</div>
+        Bug Tracking System
     </a>
 
-    <!-- RIGHT -->
-    <nav class="nav-links">
-      <a href="#" class="nav-link">Projects</a>
-      <a href="#" class="nav-link">Tasks</a>
-      <a href="#" class="nav-link">Bugs</a>
-    </nav>
+    {% if user.is_authenticated %}
+    <div class="navbar-nav">
 
-  </div>
-</header>
+        <a href="#">Projects</a>
+        {# 🔴 DAY: Project    → change # to {% url 'project_list' %} #}
 
-  <!-- Page Container -->
-  <main class="page">
-    <div class="container">
+        <a href="#">Bugs</a>
+        {# 🔴 DAY: Bug        → change # to {% url 'bug_list' %} #}
 
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
+        <a href="#">Tasks</a>
+        {# 🔴 DAY: Task       → change # to {% url 'task_list' %} #}
 
-      {% block content %}{% endblock %}
     </div>
-  </main>
+    <div class="navbar-user">
+        <span>{{ user.email }}</span>
+        <div class="avatar">{{ user.email|first|upper }}</div>
+        <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
+        {# ✅ DONE: logout is ready — do not touch this line #}
+    </div>
+    {% endif %}
+</nav>
 
-  <footer class="footer">
-    &copy; 2026 <span>Bug Tracking</span> — Built with Django.
-  </footer>
+<!-- ===== MAIN WRAPPER ===== -->
+<div class="layout-wrapper">
+
+    <!-- SIDEBAR — hidden automatically when user is not logged in -->
+    {% if user.is_authenticated %}
+    <aside class="sidebar">
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Main Menu</div>
+            <nav class="sidebar-nav">
+
+                <a href="#">
+                    {# 🔴 DAY: Dashboard → change # to {% url 'dashboard' %} #}
+                    <span class="nav-icon">🏠</span> Dashboard
+                </a>
+
+                <a href="#">
+                    {# 🔴 DAY: Project   → change # to {% url 'project_list' %} #}
+                    <span class="nav-icon">📁</span> Projects
+                </a>
+
+                <a href="#">
+                    {# 🔴 DAY: Module    → change # to {% url 'module_list' %} #}
+                    <span class="nav-icon">🧩</span> Modules
+                </a>
+
+                <a href="#">
+                    {# 🔴 DAY: Task      → change # to {% url 'task_list' %} #}
+                    <span class="nav-icon">✅</span> Tasks
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Bug Management</div>
+            <nav class="sidebar-nav">
+
+                <a href="#">
+                    {# 🔴 DAY: Bug       → change # to {% url 'bug_list' %} #}
+                    <span class="nav-icon">🐛</span> All Bugs
+                </a>
+
+                <a href="#">
+                    {# 🔴 DAY: Bug       → change # to {% url 'bug_create' %} #}
+                    <span class="nav-icon">➕</span> Report Bug
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Time Tracking</div>
+            <nav class="sidebar-nav">
+
+                <a href="#">
+                    {# 🔴 DAY: TimeLog   → change # to {% url 'timelog_list' %} #}
+                    <span class="nav-icon">⏱</span> Time Logs
+                </a>
+
+                <a href="#">
+                    {# 🔴 DAY: TimeLog   → change # to {% url 'timelog_create' %} #}
+                    <span class="nav-icon">🕐</span> Log Time
+                </a>
+
+            </nav>
+        </div>
+
+    </aside>
+    {% endif %}
+
+    <!-- MAIN CONTENT — block content is only once here, no duplicate -->
+    <main class="main-content">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+</div>
+<!-- end layout-wrapper -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    &copy; 2026 <span>Bug Tracking System</span> &mdash; All rights reserved.
+</footer>
 
 </body>
 </html>

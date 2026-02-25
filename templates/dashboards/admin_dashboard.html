@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-title">Admin Dashboard</div>
+        <div class="breadcrumb">Welcome back, <span>{{ user.email }}</span></div>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card blue">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_users|default:"0" }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon">📁</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_projects|default:"0" }}</div>
+            <div class="stat-label">Total Projects</div>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_tasks|default:"0" }}</div>
+            <div class="stat-label">Total Tasks</div>
+        </div>
+    </div>
+    <div class="stat-card red">
+        <div class="stat-icon">🐛</div>
+        <div class="stat-info">
+            <div class="stat-number">{{ total_bugs|default:"0" }}</div>
+            <div class="stat-label">Total Bugs</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Recent Bug Activity</div>
+        <a href="#" class="btn btn-primary btn-sm">View All Bugs</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Bug ID</th>
+                    <th>Description</th>
+                    <th>Project</th>
+                    <th>Reported By</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-icon">🐛</div>
+                            <p>No bugs reported yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">All Projects</div>
+        <a href="#" class="btn btn-secondary btn-sm">View All</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Modules</th>
+                    <th>Tasks</th>
+                    <th>Open Bugs</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <div class="empty-icon">📁</div>
+                            <p>No projects found.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
