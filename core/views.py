@@ -1,20 +1,55 @@
-from django.shortcuts import render,redirect
-from .forms import UserSignupForm,UserLoginForm
-from django.contrib.auth import authenticate,login,logout
+from django.shortcuts import render, redirect
+from .forms import UserSignupForm, UserLoginForm
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from email.mime.image import MIMEImage
+import os
 
-# Create your views here.
 def userSignupView(request):
-    if request.method =="POST":
-      form = UserSignupForm(request.POST or None)
-      if form.is_valid():
-        form.save()
-        return redirect('login') #error
-      else:
-        return render(request,'core/signup.html',{'form':form})  
+    if request.method == "POST":
+        form = UserSignupForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data['email']
+            role  = form.cleaned_data['role']
+
+            #Send welcome email 
+            html_content = render_to_string('core/welcome_email.html', {
+                'email': email,
+                'role':  role,
+            })
+
+            msg = EmailMultiAlternatives(
+                subject    = 'Welcome to Bug Tracking System',
+                body       = f'Welcome {email}! Your account has been created.',
+                from_email = settings.EMAIL_HOST_USER,
+                to         = [email],
+            )
+            msg.attach_alternative(html_content, "text/html")
+            
+
+            # attach inline image
+            image_path = os.path.join(settings.BASE_DIR, 'static', 'images', 'logo.png')
+            with open(image_path, 'rb') as img:
+                mime_image = MIMEImage(img.read(),'png')
+                mime_image.add_header('Content-ID', '<logo_image>')
+                mime_image.add_header('Content-Disposition', 'inline', filename='logo.png')
+                msg.attach(mime_image)
+
+            msg.send()
+            #end email
+
+            return redirect('login')
+        else:
+            return render(request, 'core/signup.html', {'form': form})
     else:
         form = UserSignupForm()
-        return render(request,'core/signup.html',{'form':form})
-    
+        return render(request, 'core/signup.html', {'form': form})
+
+
+
 def userLoginView(request):
     if request.method == "POST":
         form = UserLoginForm(request.POST or None)
@@ -39,7 +74,7 @@ def userLoginView(request):
         form = UserLoginForm()
         return render(request, 'core/login.html', {'form': form})
 
+
 def userLogoutView(request):
     logout(request)
     return redirect('login')
-
