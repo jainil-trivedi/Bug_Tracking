@@ -31,15 +31,22 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_admin
         
-    email = models.EmailField(unique=True)
-
+    GENDER_CHOICES = (
+        ('male',   'Male'),
+        ('female', 'Female'),
+    )
+    
     role_choice = (
     ('admin', 'Admin'),
     ('manager', 'Project Manager'),
     ('developer', 'Developer'),
     ('tester', 'Tester'),
     )
-    
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
     role = models.CharField(max_length=10,choices=role_choice,default='user')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
