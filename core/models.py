@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -14,6 +14,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_admin', True)
+        extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -23,7 +24,7 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 # Create your models here.
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
@@ -47,7 +48,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=50, null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    role = models.CharField(max_length=10,choices=role_choice,default='user')
+    role = models.CharField(max_length=20,choices=role_choice,default='developer')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -63,3 +64,7 @@ class User(AbstractBaseUser):
     
     def __str__(self):
         return self.email
+    
+    def get_full_name(self):
+        full_name = f"{self.first_name or ''} {self.last_name or ''}".strip()
+        return full_name if full_name else self.email
