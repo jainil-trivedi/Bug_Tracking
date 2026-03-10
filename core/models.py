@@ -68,3 +68,87 @@ class User(AbstractBaseUser,PermissionsMixin):
     def get_full_name(self):
         full_name = f"{self.first_name or ''} {self.last_name or ''}".strip()
         return full_name if full_name else self.email
+    
+class Project(models.Model):
+    
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    manager = models.ForeignKey(User,on_delete=models.CASCADE,related_name='managed_projects',db_column="manager_id")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "projects"
+
+    def __str__(self):
+        return self.name
+
+
+class Module(models.Model):
+
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='modules',db_column="project_id")
+    name = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = "modules"
+
+    def __str__(self):
+        return self.name
+
+
+class Task(models.Model):
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('In Progress', 'In Progress'),
+        ('Completed', 'Completed'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    module = models.ForeignKey(Module,on_delete=models.CASCADE,related_name='tasks',db_column="module_id")
+    title = models.CharField(max_length=200)
+    assigned_to = models.ForeignKey(User,on_delete=models.SET_NULL,null=True, blank=True,related_name='assigned_tasks',db_column="assigned_to")
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    class Meta:
+        db_table = "tasks"
+
+    def __str__(self):
+        return self.title
+
+
+class Bug(models.Model):
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('In Progress', 'In Progress'),
+        ('Completed', 'Completed'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    task = models.ForeignKey(Task,on_delete=models.CASCADE,related_name='bugs',db_column="task_id")
+    description = models.TextField()
+    reported_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name='reported_bugs',db_column="reported_by")
+    assigned_to = models.ForeignKey(User,on_delete=models.SET_NULL,null=True, blank=True,related_name='assigned_bugs',db_column="assigned_to")
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    reported_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        db_table = "bugs"
+
+    def __str__(self):
+        return f"Bug #{self.pk} - {self.description[:30]}"
+
+
+class TimeLog(models.Model):
+    task = models.ForeignKey(Task,on_delete=models.CASCADE,related_name='timelogs',db_column="task_id")
+    developer = models.ForeignKey(User,on_delete=models.CASCADE,related_name='time_logs',db_column="developer_id")
+    hours_spent = models.FloatField()
+    date = models.DateField()
+
+    class Meta:
+        db_table = "time_logs"
+
+    def __str__(self):
+        return f"{self.developer} - {self.hours_spent} hrs"
