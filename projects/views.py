@@ -5,7 +5,7 @@ from dashboards.decorators import role_required
 
 # Create your views here.
 
-#project view:-
+#Project View:-
 
 @role_required(allowed_roles=['admin','manager'])
 def projectListView(request):
@@ -56,3 +56,48 @@ def projectDeleteView(request, id):
         project.delete()
         return redirect('project_list')
     return render(request,'projects/project_delete.html',{'project': project})
+
+#Modul View:-
+
+@role_required(allowed_roles=['admin','manager'])
+def moduleListView(request):
+    modules = Module.objects.all()
+    return render(request,'projects/module_list.html',{'modules': modules})
+
+
+@role_required(allowed_roles=['admin','manager'])
+def moduleCreateView(request):
+    if request.method == 'POST':
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('module_list')
+        else:
+            return render(request,'projects/module_create.html',{'form': form})
+    else:
+        form = ModuleForm()
+        return render(request,'projects/module_create.html',{'form': form})
+
+
+@role_required(allowed_roles=['admin','manager'])
+def moduleEditView(request, id):
+    module = get_object_or_404(Module, id=id)
+    if request.method == 'POST':
+        form = ModuleForm(request.POST, instance=module)
+        if form.is_valid():
+            form.save()
+            return redirect('module_list')
+        else:
+            return render(request,'projects/module_edit.html',{'form': form, 'module': module})
+    else:
+        form = ModuleForm(instance=module)
+        return render(request,'projects/module_edit.html',{'form':form,'module': module})
+
+
+@role_required(allowed_roles=['admin','manager'])
+def moduleDeleteView(request, id):
+    module = get_object_or_404(Module,id=id)
+    if request.method == 'POST':
+        module.delete()
+        return redirect('module_list')
+    return render(request,'projects/module_delete.html', {'module': module})
