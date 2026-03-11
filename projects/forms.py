@@ -5,7 +5,7 @@ from core.models import Project, Module, User
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'manager']
+        fields = ['name','description','manager']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,4 +17,4 @@ class ProjectForm(forms.ModelForm):
 class ModuleForm(forms.ModelForm):
     class Meta:
         model = Module
-        fields = ['project', 'name']
+        fields = ['project','name']
