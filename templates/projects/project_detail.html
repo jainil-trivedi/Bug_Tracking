@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-title">{{ project.name }}</div>
+        <div class="breadcrumb"><span>Dashboard</span> / <span>Projects</span> / {{ project.name }}</div>
+    </div>
+    <div class="action-btns">
+        <a href="{% url 'project_edit' project.id %}" class="btn btn-warning">Edit Project</a>
+        <a href="{% url 'module_create' %}?project={{ project.id }}" class="btn btn-primary">+ Add Module</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"><div class="card-title">Project Information</div><span class="badge badge-inprogress">Active</span></div>
+    <div class="info-grid">
+        <div class="info-item"><div class="info-label">Project Name</div><div class="info-value">{{ project.name }}</div></div>
+        <div class="info-item"><div class="info-label">Created Date</div><div class="info-value">{{ project.created_at|date:"d M Y" }}</div></div>
+        <div class="info-item" style="grid-column:1/-1;"><div class="info-label">Description</div><div class="info-value">{{ project.description|default:"No description." }}</div></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Modules ({{ modules|length }})</div>
+        <a href="{% url 'module_create' %}?project={{ project.id }}" class="btn btn-success btn-sm">+ Module</a>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead><tr><th>#</th><th>Module Name</th><th>Tasks</th><th>Actions</th></tr></thead>
+            <tbody>
+                {% for module in modules %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><strong>{{ module.name }}</strong></td>
+                    <td>{{ module.task_set.count }}</td>
+                    <td><a href="{% url 'task_list' %}?module={{ module.id }}" class="btn btn-primary btn-sm">Tasks</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4"><div class="empty-state"><div class="empty-icon">🧩</div><p>No modules yet.</p></div></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
