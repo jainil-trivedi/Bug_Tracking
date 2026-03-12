@@ -1,17 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .decorators import role_required
+from core.models import Project, Bug
 
 # Create your views here.
 #@login_required(login_url="login")
 @role_required(allowed_roles=["admin"])
 def adminDashboardView(request):
-    return render(request,"dashboards/admin_dashboard.html")
+    projects = Project.objects.all()
+    return render(request,"dashboards/admin_dashboard.html",{"projects": projects})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["manager"])
 def managerDashboardView(request):
-    return render(request,"dashboards/manager_dashboard.html")
+    #show only projects where logged in user is manager
+    projects = Project.objects.filter(manager=request.user)
+    return render(request,"dashboards/manager_dashboard.html",{"projects": projects})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["developer"])
