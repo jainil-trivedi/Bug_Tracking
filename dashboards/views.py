@@ -8,14 +8,15 @@ from core.models import Project, Bug
 @role_required(allowed_roles=["admin"])
 def adminDashboardView(request):
     projects = Project.objects.all()
-    return render(request,"dashboards/admin_dashboard.html",{"projects": projects})
+    total_projects = projects.count()
+    return render(request,"dashboards/admin_dashboard.html",{"projects": projects,"total_projects": total_projects})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["manager"])
 def managerDashboardView(request):
-    #show only projects where logged in user is manager
     projects = Project.objects.filter(manager=request.user)
-    return render(request,"dashboards/manager_dashboard.html",{"projects": projects})
+    my_projects = projects.count()
+    return render(request,"dashboards/manager_dashboard.html",{"projects": projects,"my_projects": my_projects})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["developer"])

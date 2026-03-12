@@ -9,8 +9,11 @@ from dashboards.decorators import role_required
 
 @role_required(allowed_roles=['admin','manager'])
 def projectListView(request):
-    projects = Project.objects.all()
-    return render(request,'projects/project_list.html',{'projects': projects})
+    if request.user.role == 'admin':
+        projects = Project.objects.all()
+    else:
+        projects = Project.objects.filter(manager=request.user)
+    return render(request, 'projects/project_list.html', {'projects': projects})
 
 
 @role_required(allowed_roles=['admin','manager'])
