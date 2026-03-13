@@ -68,7 +68,7 @@ def moduleListView(request):
     return render(request,'projects/module_list.html',{'modules': modules})
 
 
-@role_required(allowed_roles=['admin','manager'])
+@role_required(allowed_roles=['admin', 'manager'])
 def moduleCreateView(request):
     if request.method == 'POST':
         form = ModuleForm(request.POST)
@@ -76,13 +76,15 @@ def moduleCreateView(request):
             form.save()
             return redirect('module_list')
         else:
-            return render(request,'projects/module_create.html',{'form': form})
+            projects = Project.objects.all()
+            return render(request,'projects/module_create.html',{'form': form, 'projects': projects})
     else:
         form = ModuleForm()
-        return render(request,'projects/module_create.html',{'form': form})
+        projects = Project.objects.all()
+        return render(request,'projects/module_create.html', {'form': form,'projects': projects})
 
 
-@role_required(allowed_roles=['admin','manager'])
+@role_required(allowed_roles=['admin', 'manager'])
 def moduleEditView(request, id):
     module = get_object_or_404(Module, id=id)
     if request.method == 'POST':
@@ -91,10 +93,12 @@ def moduleEditView(request, id):
             form.save()
             return redirect('module_list')
         else:
-            return render(request,'projects/module_edit.html',{'form': form, 'module': module})
+            projects = Project.objects.all()
+            return render(request,'projects/module_edit.html',{'form':form,'module':module,'projects':projects})
     else:
         form = ModuleForm(instance=module)
-        return render(request,'projects/module_edit.html',{'form':form,'module': module})
+        projects = Project.objects.all()
+        return render(request,'projects/module_edit.html',{'form':form,'module':module,'projects':projects})
 
 
 @role_required(allowed_roles=['admin','manager'])
