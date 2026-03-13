@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .decorators import role_required
-from core.models import Project, Bug, Module
+from core.models import Project, Bug, Module, User 
 
 # Create your views here.
 #@login_required(login_url="login")
@@ -9,7 +9,8 @@ from core.models import Project, Bug, Module
 def adminDashboardView(request):
     projects = Project.objects.all()
     total_projects = projects.count()
-    return render(request,"dashboards/admin_dashboard.html",{"projects": projects,"total_projects": total_projects})
+    total_users = User.objects.count()
+    return render(request,"dashboards/admin_dashboard.html",{"projects": projects,"total_projects": total_projects, "total_users": total_users})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["manager"])
