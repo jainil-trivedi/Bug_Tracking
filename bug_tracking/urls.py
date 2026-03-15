@@ -22,5 +22,5 @@ urlpatterns = [
     path("",include('core.urls')),
     path('dashboards/',include('dashboards.urls')),
     path('projects/',include('projects.urls')),
-    #path('tasks/',include('tasks.urls')),
+    path('tasks/',include('tasks.urls')),
 ]
