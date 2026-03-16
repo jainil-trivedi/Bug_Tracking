@@ -8,8 +8,10 @@
         <div class="breadcrumb"><span>Dashboard</span> / <span>Tasks</span> / {{ task.title }}</div>
     </div>
     <div class="action-btns">
+        {% if user.role == 'admin' or user.role == 'manager' %}
         <a href="{% url 'task_edit' task.id %}" class="btn btn-warning">Edit Task</a>
-        <a href="#" class="btn btn-danger">+ Report Bug</a>
+        {% endif %}
+    <a href="#" class="btn btn-danger">+ Report Bug</a>
     </div>
 </div>
 

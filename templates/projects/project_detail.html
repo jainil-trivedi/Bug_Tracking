@@ -35,7 +35,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td><strong>{{ module.name }}</strong></td>
-                    <td>{{ module.task_set.count }}</td>
+                    <td>{{ module.tasks.count }}</td>
                     <td><a href="{% url 'task_list' %}?module={{ module.id }}" class="btn btn-primary btn-sm">Tasks</a></td>
                 </tr>
                 {% empty %}

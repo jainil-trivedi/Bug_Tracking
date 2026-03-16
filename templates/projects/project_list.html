@@ -18,7 +18,7 @@
     <div class="table-responsive">
         <table>
             <thead>
-                <tr><th>#</th><th>Project Name</th><th>Description</th><th>Modules</th><th>Created Date</th><th>Actions</th></tr>
+                <tr><th>#</th><th>Project Name</th><th>Description</th><th>Manager</th><th>Modules</th><th>Created Date</th><th>Actions</th></tr>
             </thead>
             <tbody>
                 {% for project in projects %}
@@ -26,7 +26,8 @@
                     <td>{{ forloop.counter }}</td>
                     <td><strong>{{ project.name }}</strong></td>
                     <td>{{ project.description|truncatechars:60 }}</td>
-                    <td>{{ project.module_set.count }}</td>
+                    <td>{{ project.manager.get_full_name }}</td>
+                    <td>{{ project.modules.count }}</td>
                     <td>{{ project.created_at|date:"d M Y" }}</td>
                     <td>
                         <div class="action-btns">
@@ -37,7 +38,7 @@
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📁</div><p>No projects found.</p></div></td></tr>
+                <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📁</div><p>No projects found.</p></div></td></tr>
                 {% endfor %}
             </tbody>
         </table>

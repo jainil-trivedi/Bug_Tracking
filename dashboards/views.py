@@ -11,7 +11,11 @@ def adminDashboardView(request):
     total_projects = projects.count()
     total_users = User.objects.count()
     total_tasks = Task.objects.count()
-    return render(request,"dashboards/admin_dashboard.html",{"projects": projects,"total_projects": total_projects, "total_users": total_users, "total_tasks": total_tasks})
+
+    for project in projects:
+        project.total_tasks = Task.objects.filter(module__project=project).count()
+
+    return render(request, "dashboards/admin_dashboard.html", {'projects': projects,'total_projects': total_projects,'total_users': total_users,'total_tasks': total_tasks,})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["manager"])
@@ -30,7 +34,13 @@ def managerDashboardView(request):
 #@login_required(login_url="login")
 @role_required(allowed_roles=["developer"])
 def developerDashboardView(request):
-    return render(request,"dashboards/developer_dashboard.html")
+    from core.models import Task, Bug, TimeLog
+    assigned_tasks = Task.objects.filter(assigned_to=request.user)
+    total_tasks = assigned_tasks.count()
+    total_bugs = Bug.objects.filter(assigned_to=request.user).count()
+    total_timelogs = TimeLog.objects.filter(developer=request.user).count()
+    pending_tasks = assigned_tasks.filter(status='Pending').count()
+    return render(request, "dashboards/developer_dashboard.html", {'assigned_tasks': assigned_tasks,'total_tasks': total_tasks,'total_bugs': total_bugs,'total_timelogs': total_timelogs,'pending_tasks': pending_tasks,})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["tester"])
