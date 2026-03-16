@@ -20,7 +20,12 @@ def managerDashboardView(request):
     my_projects = projects.count()
     total_modules = Module.objects.filter(project__manager=request.user).count()
     total_tasks = Task.objects.filter(module__project__manager=request.user).count()
-    return render(request, "dashboards/manager_dashboard.html", {'projects': projects,'my_projects': my_projects,'total_modules': total_modules,'total_tasks': total_tasks,})
+
+    for project in projects:
+        project.total_tasks = Task.objects.filter(module__project=project).count()
+        project.pending_tasks = Task.objects.filter(module__project=project, status='Pending').count()
+
+    return render(request, "dashboards/manager_dashboard.html",{'projects': projects,'my_projects': my_projects,'total_modules': total_modules,'total_tasks': total_tasks,})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["developer"])
