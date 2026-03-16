@@ -32,12 +32,12 @@
         {% if user.role == 'admin' or user.role == 'manager' %}
             <a href="{% url 'project_list' %}">Projects</a>
             {# 🔴 TODO: change # to {% url 'project_list' %} #}
-            <a href="#">Tasks</a>
+            <a href="{% url 'task_list' %}">Tasks</a>
             {# 🔴 TODO: change # to {% url 'task_list' %} #}
         {% endif %}
 
         {% if user.role == 'developer' %}
-            <a href="#">Tasks</a>
+            <a href="{% url 'task_list' %}">Tasks</a>
             {# 🔴 TODO: change # to {% url 'task_list' %} #}
         {% endif %}
 
@@ -78,7 +78,7 @@
                     {# 🔴 TODO: change # to {% url 'module_list' %} #}
                     <span class="nav-icon">🧩</span> Modules
                 </a>
-                <a href="#">
+                <a href="{% url 'task_list' %}">
                     {# 🔴 TODO: change # to {% url 'task_list' %} #}
                     <span class="nav-icon">✅</span> Tasks
                 </a>
@@ -120,7 +120,7 @@
                     {# 🔴 TODO: change # to {% url 'module_list' %} #}
                     <span class="nav-icon">🧩</span> Modules
                 </a>
-                <a href="#">
+                <a href="{% url 'task_list' %}">
                     {# 🔴 TODO: change # to {% url 'task_list' %} #}
                     <span class="nav-icon">✅</span> Tasks
                 </a>
@@ -154,7 +154,7 @@
                     {# ✅ DONE #}
                     <span class="nav-icon">🏠</span> Dashboard
                 </a>
-                <a href="#">
+                <a href="{% url 'task_list' %}">
                     {# 🔴 TODO: change # to {% url 'task_list' %} #}
                     <span class="nav-icon">✅</span> Tasks
                 </a>
