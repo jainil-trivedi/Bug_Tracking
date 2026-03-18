@@ -51,4 +51,5 @@ def testerDashboardView(request):
     reported_bugs = Bug.objects.filter(reported_by=request.user)
     total_bugs = reported_bugs.count()
     pending_bugs = reported_bugs.filter(status='Pending').count()
-    return render(request,"dashboards/tester_dashboard.html",{'reported_bugs': reported_bugs,'total_bugs': total_bugs,'pending_bugs': pending_bugs,})
+    resolved_bugs = reported_bugs.filter(status='Completed').count()
+    return render(request,"dashboards/tester_dashboard.html",{'reported_bugs': reported_bugs,'total_bugs': total_bugs,'pending_bugs': pending_bugs,'resolved_bugs': resolved_bugs,})
