@@ -24,4 +24,5 @@ urlpatterns = [
     path('projects/',include('projects.urls')),
     path('tasks/',include('tasks.urls')),
     path('bugs/',include('bugs.urls')),
+    path('timelogs/',include('timelogs.urls')),
 ]
