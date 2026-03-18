@@ -41,7 +41,7 @@
             {# 🔴 TODO: change # to {% url 'task_list' %} #}
         {% endif %}
 
-        <a href="#">Bugs</a>
+        <a href="{% url 'bug_list' %}">Bugs</a>
         {# 🔴 TODO: change # to {% url 'bug_list' %} #}
 
     </div>
@@ -87,7 +87,7 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Bug Management</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'bug_list' %}">
                     {# 🔴 TODO: change # to {% url 'bug_list' %} #}
                     <span class="nav-icon">🐛</span> All Bugs
                 </a>
@@ -129,7 +129,7 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Bug Management</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'bug_list' %}">
                     {# 🔴 TODO: change # to {% url 'bug_list' %} #}
                     <span class="nav-icon">🐛</span> All Bugs
                 </a>
@@ -163,7 +163,7 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Bug Management</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'bug_list' %}">
                     {# 🔴 TODO: change # to {% url 'bug_list' %} #}
                     <span class="nav-icon">🐛</span> All Bugs
                 </a>
@@ -197,11 +197,11 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Bug Management</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'bug_list' %}">
                     {# 🔴 TODO: change # to {% url 'bug_list' %} #}
                     <span class="nav-icon">🐛</span> All Bugs
                 </a>
-                <a href="#">
+                <a href="{% url 'bug_create' %}">
                     {# 🔴 TODO: change # to {% url 'bug_create' %} #}
                     <span class="nav-icon">➕</span> Report Bug
                 </a>

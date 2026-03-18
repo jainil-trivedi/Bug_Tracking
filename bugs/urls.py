@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:id>/detail/', views.bugDetailView, name='bug_detail'),
     path('<int:id>/edit/', views.bugEditView, name='bug_edit'),
     path('<int:id>/delete/', views.bugDeleteView, name='bug_delete'),
+    path('<int:id>/update-status/', views.bugUpdateStatusView, name='bug_update_status'),
 ]

@@ -69,3 +69,11 @@ def bugDeleteView(request, id):
         bug.delete()
         return redirect('bug_list')
     return render(request,'bugs/bug_delete.html',{'bug': bug})
+
+@role_required(allowed_roles=['admin', 'manager','developer','tester'])
+def bugUpdateStatusView(request, id):
+    bug = get_object_or_404(Bug, id=id)
+    if request.method == 'POST':
+        bug.status = request.POST.get('status')
+        bug.save()
+    return redirect('bug_detail',id=bug.id)

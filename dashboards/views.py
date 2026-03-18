@@ -11,11 +11,13 @@ def adminDashboardView(request):
     total_projects = projects.count()
     total_users = User.objects.count()
     total_tasks = Task.objects.count()
+    total_bugs = Bug.objects.count()
+    recent_bugs = Bug.objects.order_by('-reported_date')[:5]
 
     for project in projects:
         project.total_tasks = Task.objects.filter(module__project=project).count()
 
-    return render(request, "dashboards/admin_dashboard.html", {'projects': projects,'total_projects': total_projects,'total_users': total_users,'total_tasks': total_tasks,})
+    return render(request, "dashboards/admin_dashboard.html", {'projects': projects,'total_projects': total_projects,'total_users': total_users,'total_tasks': total_tasks,'total_bugs': total_bugs,'recent_bugs': recent_bugs,})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["manager"])
