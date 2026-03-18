@@ -43,7 +43,7 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">Recent Bug Activity</div>
-        <a href="#" class="btn btn-primary btn-sm">View All Bugs</a>
+        <a href="{% url 'bug_list' %}" class="btn btn-primary btn-sm">View All Bugs</a>
     </div>
     <div class="table-responsive">
         <table>
@@ -55,6 +55,7 @@
                     <th>Reported By</th>
                     <th>Status</th>
                     <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +73,12 @@
                         {% endif %}
                     </td>
                     <td>{{ bug.reported_date|date:"d M Y" }}</td>
+                    <td>
+                        <a href="{% url 'bug_detail' bug.id %}" class="btn btn-primary btn-sm">View</a>
+                    </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🐛</div><p>No bugs reported yet.</p></div></td></tr>
+                <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🐛</div><p>No bugs reported yet.</p></div></td></tr>
                 {% endfor %}
             </tbody>
         </table>
