@@ -46,8 +46,8 @@
 
     </div>
     <div class="navbar-user">
-        <span>{{ user.email }}</span>
-        <div class="avatar">{{ user.email|first|upper }}</div>
+        <span>{{ user.get_full_name }}</span>
+        <div class="avatar">{{ user.first_name|first|upper }}</div>
         <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
         {#  logout url is ready #}
     </div>
