@@ -49,7 +49,7 @@
         <span>{{ user.get_full_name }}</span>
         <div class="avatar">{{ user.first_name|first|upper }}</div>
         <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">Logout</a>
-        {#  logout url is ready #}
+        {#  logout url  #}
     </div>
     {% endif %}
 </nav>
@@ -96,7 +96,7 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Time Tracking</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'timelog_list' %}">
                     {# 🔴 TODO: change # to {% url 'timelog_list' %} #}
                     <span class="nav-icon">⏱</span> Time Logs
                 </a>
@@ -138,7 +138,7 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Time Tracking</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'timelog_list' %}">
                     {# 🔴 TODO: change # to {% url 'timelog_list' %} #}
                     <span class="nav-icon">⏱</span> Time Logs
                 </a>
@@ -172,11 +172,11 @@
         <div class="sidebar-section">
             <div class="sidebar-label">Time Tracking</div>
             <nav class="sidebar-nav">
-                <a href="#">
+                <a href="{% url 'timelog_list' %}">
                     {# 🔴 TODO: change # to {% url 'timelog_list' %} #}
                     <span class="nav-icon">⏱</span> Time Logs
                 </a>
-                <a href="#">
+                <a href="{% url 'timelog_create' %}">
                     {# 🔴 TODO: change # to {% url 'timelog_create' %} #}
                     <span class="nav-icon">🕐</span> Log Time
                 </a>
@@ -189,7 +189,7 @@
             <div class="sidebar-label">Main Menu</div>
             <nav class="sidebar-nav">
                 <a href="{% url 'testerDashboard' %}">
-                    {# ✅ DONE #}
+                    {#  DONE #}
                     <span class="nav-icon">🏠</span> Dashboard
                 </a>
             </nav>
