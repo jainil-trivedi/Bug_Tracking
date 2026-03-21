@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .decorators import role_required
-from core.models import Project, Bug, Module, User , Task
+from core.models import Project, Bug, Module, User , Task, TimeLog
+from django.db import models
 
 # Create your views here.
 #@login_required(login_url="login")
@@ -42,8 +43,9 @@ def developerDashboardView(request):
     total_tasks = assigned_tasks.count()
     total_bugs = Bug.objects.filter(assigned_to=request.user).count()
     #total_timelogs = TimeLog.objects.filter(developer=request.user).count()
+    total_hours = TimeLog.objects.filter(developer=request.user).aggregate(total=models.Sum('hours_spent'))['total'] or 0
     pending_tasks = assigned_tasks.filter(status='Pending').count()
-    return render(request, "dashboards/developer_dashboard.html", {'assigned_tasks': assigned_tasks,'total_tasks': total_tasks,'total_bugs': total_bugs,'pending_tasks': pending_tasks,})
+    return render(request, "dashboards/developer_dashboard.html", {'assigned_tasks': assigned_tasks,'total_tasks': total_tasks,'total_bugs': total_bugs,'pending_tasks': pending_tasks,'total_hours': total_hours,})
 
 #@login_required(login_url="login")
 @role_required(allowed_roles=["tester"])

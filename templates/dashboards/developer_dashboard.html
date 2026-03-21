@@ -5,9 +5,9 @@
 <div class="page-header">
     <div>
         <div class="page-title">Developer Dashboard</div>
-        <div class="breadcrumb">Welcome, <span>{{ user.get_full_name  }}</span></div>
+        <div class="breadcrumb">Welcome, <span>{{ user.get_full_name }}</span></div>
     </div>
-    <a href="#" class="btn btn-success">+ Log Time</a>
+    <a href="{% url 'timelog_create' %}" class="btn btn-success">+ Log Time</a>
 </div>
 
 <div class="stats-grid">
@@ -28,7 +28,7 @@
     <div class="stat-card green">
         <div class="stat-icon">⏱</div>
         <div class="stat-info">
-            <div class="stat-number">{{ total_timelogs|default:"0" }}h</div>
+            <div class="stat-number">{{ total_hours|default:"0" }}h</div>
             <div class="stat-label">Hours Worked</div>
         </div>
     </div>
