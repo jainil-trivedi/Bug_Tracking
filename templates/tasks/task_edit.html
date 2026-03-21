@@ -23,7 +23,7 @@
             <select id="id_module" name="module" class="form-control" required>
                 <option value="">-- Select Module --</option>
                 {% for module in modules %}
-                    <option value="{{ module.id }}" {% if form.module.value == module.id|stringformat:"s" %}selected{% endif %}>{{ module.project.name }} / {{ module.name }}</option>
+                    <option value="{{ module.id }}" {% if selected_module == module.id|stringformat:"s" %}selected{% endif %}>{{ module.project.name }} / {{ module.name }}</option>
                 {% endfor %}
             </select>
             {% if form.module.errors %}<div class="form-error">{{ form.module.errors }}</div>{% endif %}
@@ -33,7 +33,7 @@
             <select id="id_assigned_to" name="assigned_to" class="form-control">
                 <option value="">-- Select Developer --</option>
                 {% for dev in developers %}
-                    <option value="{{ dev.id }}" {% if form.assigned_to.value == dev.id|stringformat:"s" %}selected{% endif %}>{{ dev.get_full_name }}</option>
+                    <option value="{{ dev.id }}" {% if selected_developer == dev.id|stringformat:"s" %}selected{% endif %}>{{ dev.get_full_name }}</option>
                 {% endfor %}
             </select>
         </div>

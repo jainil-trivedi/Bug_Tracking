@@ -38,7 +38,9 @@ def taskCreateView(request):
 @role_required(allowed_roles=['admin', 'manager', 'developer', 'tester'])
 def taskDetailView(request, id):
     task = get_object_or_404(Task, id=id)
-    return render(request, 'tasks/task_detail.html', {'task': task})
+    bugs = task.bugs.all()
+    timelogs = task.timelogs.all()
+    return render(request, 'tasks/task_detail.html', {'task': task, 'bugs': bugs, 'timelogs': timelogs})
 
 
 @role_required(allowed_roles=['admin', 'manager'])
@@ -52,13 +54,26 @@ def taskEditView(request, id):
         else:
             modules = Module.objects.all()
             developers = User.objects.filter(role='developer')
-            return render(request, 'tasks/task_edit.html', {'form': form, 'task': task, 'modules': modules, 'developers': developers})
+            return render(request, 'tasks/task_edit.html', {
+                'form': form,
+                'task': task,
+                'modules': modules,
+                'developers': developers,
+                'selected_module': str(task.module.id),
+                'selected_developer': str(task.assigned_to.id) if task.assigned_to else '',
+            })
     else:
         form = TaskForm(instance=task)
         modules = Module.objects.all()
         developers = User.objects.filter(role='developer')
-        return render(request, 'tasks/task_edit.html', {'form': form, 'task': task, 'modules': modules, 'developers': developers})
-
+        return render(request, 'tasks/task_edit.html', {
+            'form': form,
+            'task': task,
+            'modules': modules,
+            'developers': developers,
+            'selected_module': str(task.module.id),
+            'selected_developer': str(task.assigned_to.id) if task.assigned_to else '',
+        })
 
 @role_required(allowed_roles=['admin', 'manager'])
 def taskDeleteView(request, id):

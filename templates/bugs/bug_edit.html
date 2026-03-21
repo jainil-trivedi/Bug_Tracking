@@ -18,7 +18,7 @@
             <select id="id_task" name="task" class="form-control" required>
                 <option value="">-- Select Task --</option>
                 {% for task in tasks %}
-                    <option value="{{ task.id }}" {% if form.task.value == task.id|stringformat:"s" %}selected{% endif %}>
+                    <option value="{{ task.id }}" {% if form.task.value == task.id|stringformat:"s" or bug.task.id == task.id %}selected{% endif %}>
                         {{ task.module.project.name }} / {{ task.module.name }} / {{ task.title }}
                     </option>
                 {% endfor %}
@@ -35,7 +35,7 @@
             <select id="id_assigned_to" name="assigned_to" class="form-control">
                 <option value="">-- Select Developer --</option>
                 {% for dev in developers %}
-                    <option value="{{ dev.id }}" {% if form.assigned_to.value == dev.id|stringformat:"s" %}selected{% endif %}>{{ dev.get_full_name }}</option>
+                    <option value="{{ dev.id }}" {% if form.assigned_to.value == dev.id|stringformat:"s" or bug.assigned_to.id == dev.id %}selected{% endif %}>{{ dev.get_full_name }}</option>
                 {% endfor %}
             </select>
         </div>

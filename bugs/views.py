@@ -43,8 +43,8 @@ def bugDetailView(request, id):
     return render(request,'bugs/bug_detail.html',{'bug':bug})
 
 
-@role_required(allowed_roles=['admin','manager'])
-def bugEditView(request,id):
+@role_required(allowed_roles=['admin', 'manager'])
+def bugEditView(request, id):
     bug = get_object_or_404(Bug, id=id)
     if request.method == 'POST':
         form = BugForm(request.POST, instance=bug)
@@ -54,13 +54,12 @@ def bugEditView(request,id):
         else:
             tasks = Task.objects.all()
             developers = User.objects.filter(role='developer')
-            return render(request,'bugs/bug_edit.html',{'form':form,'bug': bug,'tasks': tasks, 'developers':developers})
+            return render(request, 'bugs/bug_edit.html', {'form': form, 'bug': bug, 'tasks': tasks, 'developers': developers})
     else:
         form = BugForm(instance=bug)
         tasks = Task.objects.all()
         developers = User.objects.filter(role='developer')
-        return render(request,'bugs/bug_edit.html',{'form': form,'bug': bug,'tasks': tasks,'developers': developers})
-
+        return render(request, 'bugs/bug_edit.html', {'form': form, 'bug': bug, 'tasks': tasks, 'developers': developers})
 
 @role_required(allowed_roles=['admin','manager'])
 def bugDeleteView(request, id):
