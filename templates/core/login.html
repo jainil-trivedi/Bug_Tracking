@@ -66,7 +66,13 @@
             </button>
         </form>
 
-        <p style="text-align:center; margin-top:1.5rem; font-size:0.85rem; color:#888;">
+        <p style="text-align:center; margin-top:1rem; font-size:0.85rem; color:#888;">
+            <a href="{% url 'forgot_password' %}" style="color:#e63946; font-weight:600;">
+                Forgot Password?
+            </a>
+        </p>
+
+        <p style="text-align:center; margin-top:0.5rem; font-size:0.85rem; color:#888;">
             Don't have an account?
             <a href="{% url 'signup' %}" style="color:#4361ee; font-weight:600;">Create Account</a>
         </p>

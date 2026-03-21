@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from email.mime.image import MIMEImage
 import os
+from .models import User
 
 def userSignupView(request):
     if request.method == "POST":
@@ -81,3 +82,22 @@ def userLogoutView(request):
 
 def homeView(request):
     return render(request, 'core/home.html')
+
+def forgotPasswordView(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            return render(request,'core/forgot_password.html',{'error': 'Passwords do not match!'})
+
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(password1)
+            user.save()
+            return redirect('login')
+        except User.DoesNotExist:
+            return render(request,'core/forgot_password.html',{'error': 'No account found with this email!'})
+    
+    return render(request,'core/forgot_password.html')
