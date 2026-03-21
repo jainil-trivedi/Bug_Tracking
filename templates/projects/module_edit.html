@@ -23,7 +23,7 @@
             <select id="id_project" name="project" class="form-control" required>
                 <option value="">-- Select Project --</option>
                 {% for project in projects %}
-                    <option value="{{ project.id }}" {% if form.project.value == project.id|stringformat:"s" %}selected{% endif %}>{{ project.name }}</option>
+                    <option value="{{ project.id }}" {% if selected_project == project.id|stringformat:"s" %}selected{% endif %}>{{ project.name }}</option>
                 {% endfor %}
             </select>
             {% if form.project.errors %}<div class="form-error">{{ form.project.errors }}</div>{% endif %}

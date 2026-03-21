@@ -46,10 +46,10 @@ def projectEditView(request, id):
             form.save()
             return redirect('project_list')
         else:
-            return render(request,'projects/project_edit.html',{'form': form,'project': project})
+            return render(request,'projects/project_edit.html',{'form': form,'project': project,'selected_manager': str(project.manager.id),})
     else:
         form = ProjectForm(instance=project)
-        return render(request,'projects/project_edit.html',{'form': form,'project': project})
+        return render(request,'projects/project_edit.html',{'form': form,'project': project,'selected_manager': str(project.manager.id),})
 
 
 @role_required(allowed_roles=['admin','manager'])
@@ -94,11 +94,15 @@ def moduleEditView(request, id):
             return redirect('module_list')
         else:
             projects = Project.objects.all()
-            return render(request,'projects/module_edit.html',{'form':form,'module':module,'projects':projects})
+            return render(request,'projects/module_edit.html',{'form': form,'module': module,'projects': projects,
+                'selected_project': str(module.project.id),
+            })
     else:
         form = ModuleForm(instance=module)
         projects = Project.objects.all()
-        return render(request,'projects/module_edit.html',{'form':form,'module':module,'projects':projects})
+        return render(request,'projects/module_edit.html',{'form': form,'module': module,'projects': projects,
+            'selected_project': str(module.project.id),
+        })
 
 
 @role_required(allowed_roles=['admin','manager'])

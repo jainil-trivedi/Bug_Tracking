@@ -54,12 +54,18 @@ def bugEditView(request, id):
         else:
             tasks = Task.objects.all()
             developers = User.objects.filter(role='developer')
-            return render(request, 'bugs/bug_edit.html', {'form': form, 'bug': bug, 'tasks': tasks, 'developers': developers})
+            return render(request, 'bugs/bug_edit.html', {'form': form,'bug': bug,'tasks': tasks,'developers': developers,
+                'selected_task': str(bug.task.id),
+                'selected_developer': str(bug.assigned_to.id) if bug.assigned_to else '',
+            })
     else:
         form = BugForm(instance=bug)
         tasks = Task.objects.all()
         developers = User.objects.filter(role='developer')
-        return render(request, 'bugs/bug_edit.html', {'form': form, 'bug': bug, 'tasks': tasks, 'developers': developers})
+        return render(request,'bugs/bug_edit.html',{'form': form,'bug': bug,'tasks': tasks,'developers': developers,
+            'selected_task': str(bug.task.id),
+            'selected_developer': str(bug.assigned_to.id) if bug.assigned_to else '',
+        })
 
 @role_required(allowed_roles=['admin','manager'])
 def bugDeleteView(request, id):
