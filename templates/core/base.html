@@ -189,21 +189,21 @@
             <div class="sidebar-label">Main Menu</div>
             <nav class="sidebar-nav">
                 <a href="{% url 'testerDashboard' %}">
-                    {#  DONE #}
-                    <span class="nav-icon">🏠</span> Dashboard
+                <span class="nav-icon">🏠</span> Dashboard
+                </a>
+                <a href="{% url 'task_list' %}">
+                <span class="nav-icon">✅</span> Tasks
                 </a>
             </nav>
         </div>
         <div class="sidebar-section">
-            <div class="sidebar-label">Bug Management</div>
+        <div class="sidebar-label">Bug Management</div>
             <nav class="sidebar-nav">
                 <a href="{% url 'bug_list' %}">
-                    {# 🔴 TODO: change # to {% url 'bug_list' %} #}
-                    <span class="nav-icon">🐛</span> All Bugs
+                <span class="nav-icon">🐛</span> All Bugs
                 </a>
-                <a href="{% url 'bug_create' %}">
-                    {# 🔴 TODO: change # to {% url 'bug_create' %} #}
-                    <span class="nav-icon">➕</span> Report Bug
+                 <a href="{% url 'bug_create' %}">
+                <span class="nav-icon">➕</span> Report Bug
                 </a>
             </nav>
         </div>
