@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from core.models import Project, Module, User
+from core.models import Project, Module, User, Task
 from .forms import ProjectForm, ModuleForm
 from dashboards.decorators import role_required
 
@@ -34,7 +34,8 @@ def projectCreateView(request):
 def projectDetailView(request, id):
     project = get_object_or_404(Project, id=id)
     modules = Module.objects.filter(project=project)
-    return render(request,'projects/project_detail.html',{'project': project, 'modules': modules})
+    tasks = Task.objects.filter(module__project=project) 
+    return render(request,'projects/project_detail.html',{'project': project, 'modules': modules, 'tasks': tasks})
 
 
 @role_required(allowed_roles=['admin','manager'])
